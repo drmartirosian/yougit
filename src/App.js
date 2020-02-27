@@ -22,7 +22,7 @@ function App() {
     })
   }, []);
 
-  //Set state
+  //Set data state
   const setData = ({ name, login, followers, following, public_repos, avatar_url }) => {
     setName(name)
     setUsername(login)
@@ -30,6 +30,19 @@ function App() {
     setFollowing(following)
     setRepos(public_repos)
     setAvatar(avatar_url)
+  }
+
+  //change user input to "event" in searchbox
+  const handleSearch = (event) => {
+    setUserInput(event.target.value)
+  }
+  //Trigger setData with userInput when button clicked
+  const handleSubmit = () => {
+    fetch(`https://api.github.com/users/${userInput}`)
+      .then(res => res.json())
+      .then(data => {
+        setData(data)
+      })
   }
 
 
@@ -40,8 +53,8 @@ function App() {
         <div className="search">
           <Form>
             <Form.Group>
-              <Form.Input placeholder='Github user' name='github user' />
-              <Form.Button content='search'/>
+              <Form.Input placeholder='Github user' name='github user' onChange={handleSearch} />
+              <Form.Button content='search' onClick={handleSubmit} />
             </Form.Group>
           </Form>
         </div>
