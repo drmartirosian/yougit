@@ -14,14 +14,20 @@ function App() {
 
   //GET USER DATA
   useEffect(()=>{
-    fetch("https://api.github.com/users/drmartirosian")
+    fetch("https://api.github.com/users/example")
     .then(res => res.json())
     .then(data => {
       console.log(data)
-      setData(data)
+      //If error, drop error message instead
+      if ( data.message ){
+        setError( data.message );
+      } else {
+        setData( data );
+        //reset error from state
+        setError(null);
+      }
     })
   }, []);
-
   //Set data state
   const setData = ({ name, login, followers, following, public_repos, avatar_url }) => {
     setName(name)
@@ -31,7 +37,6 @@ function App() {
     setRepos(public_repos)
     setAvatar(avatar_url)
   }
-
   //change user input to "event" in searchbox
   const handleSearch = (event) => {
     setUserInput(event.target.value)
@@ -41,9 +46,17 @@ function App() {
     fetch(`https://api.github.com/users/${userInput}`)
       .then(res => res.json())
       .then(data => {
-        setData(data)
+        if (data.message){
+          setError(data.message)
+        }else{
+          setData(data)
+          //reset error state after every search
+          setError(null)
+        }
       })
   }
+
+//https://api.github.com/repos/drmartirosian/yougit/commits
 
 
   return (
@@ -59,30 +72,37 @@ function App() {
           </Form>
         </div>
 
-        <div className="card">
-          <Card>
-            <Image src={avatar} wrapped ui={false} />
+        {error ? (
+          <h1>{error}</h1>
+        ) : (
+          <div className="card">
+            <Card>
+              <Image src={avatar} wrapped ui={false} />
 
-            <Card.Content>
-              <Card.Header>{name}</Card.Header>
-              <Card.Header>{userName}</Card.Header>
-            </Card.Content>
+              <Card.Content>
+                <Card.Header>{name}</Card.Header>
+                <Card.Header>{userName}</Card.Header>
+              </Card.Content>
 
-            <Card.Content extra>
-              <a> <Icon name='user' /> {followers} followers</a>
-            </Card.Content>
-            <Card.Content extra>
-              <a> <Icon name='user' /> {repos} repos</a>
-            </Card.Content>
-            <Card.Content extra>
-              <a> <Icon name='user' /> {following} following</a>
-            </Card.Content>
+              <Card.Content extra>
+                <a> <Icon name='user' /> {followers} followers</a>
+              </Card.Content>
 
-          </Card>
-        </div>
+              <Card.Content extra>
+                <a> <Icon name='user' /> {repos} repos</a>
+              </Card.Content>
+
+              <Card.Content extra>
+                <a> <Icon name='user' /> {following} following</a>
+              </Card.Content>
+
+            </Card>
+          </div>
+        )}
 
     </div>
   );
+
 }
 
 export default App;
