@@ -3,3 +3,12 @@
   background-color: black;
   color: white;
 }
+.search{
+  display: flex;
+  justify-content: center;
+  padding:20px;
+}
+.card{
+  display: flex;
+  justify-content: center;
+}
