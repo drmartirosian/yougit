@@ -60,14 +60,23 @@ function App() {
 
 
   return (
-    <div>
+    <div className="App">
 
-      <div className="navbar"> Github search </div>
+      <div className="navbar">
+        <span className="title">
+          <Icon className="giticon" name="github alternate" />
+          <span>You</span>
+          <strong className="git">Git</strong>
+        </span>
+      </div>
+
         <div className="search">
           <Form>
             <Form.Group>
               <Form.Input placeholder='Github user' name='github user' onChange={handleSearch} />
-              <Form.Button content='search' onClick={handleSubmit} />
+              <Form.Button /* content='search' */ onClick={handleSubmit}>
+                <Icon name="search"/>
+              </Form.Button>
             </Form.Group>
           </Form>
         </div>
@@ -81,19 +90,19 @@ function App() {
 
               <Card.Content>
                 <Card.Header>{name}</Card.Header>
-                <Card.Header>{userName}</Card.Header>
+                <Card.Header> <Icon name='user' /> {userName} </Card.Header>
               </Card.Content>
 
               <Card.Content extra>
-                <a> <Icon name='user' /> {followers} followers</a>
+                <p> <Icon name='thumbs up outline' /> {followers} followers</p>
               </Card.Content>
 
               <Card.Content extra>
-                <a> <Icon name='user' /> {repos} repos</a>
+                <p> <Icon name='thumbs up' /> following {following} </p>
               </Card.Content>
 
               <Card.Content extra>
-                <a> <Icon name='user' /> {following} following</a>
+                <p> <Icon name='folder open outline' /> {repos} repo(s)</p>
               </Card.Content>
 
             </Card>
